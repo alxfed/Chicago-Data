@@ -1,2 +1,3 @@
 # Chicago-Data
-Chicago public data
+
+Chicago public data sources. Extraction Processing Loading with R, python etc.
