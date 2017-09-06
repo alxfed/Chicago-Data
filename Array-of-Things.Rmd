@@ -45,8 +45,11 @@ Now we need to extract the list of categories and only leave the live sensors in
 # Form a vector of unique elements of the "category" column
 catlist <- unique(udf[,"category"])
 
-#ludf <- udf[ which(status=='Live'),]
-ludf <- subset( udf, status=='Live', select = c(latitude:category, notes))
+# Choose one of the subsetting methods you like
+
+#ludf <- udf[ udf$status=='Live', ]  # this one leaves the 'status' column in place
+
+ludf <- subset( udf, status=='Live', select = c(latitude:category, notes)) #this one removes it
 
 head(ludf)
 ```
