@@ -1,0 +1,67 @@
+---
+title: "Chicago Data"
+output: html_notebook
+---
+
+I registered my application here: https://data.cityofchicago.org/profile/Alex-Fedotov/pr3p-5psv/app_tokens
+
+The tokens for my application are: 
+1. App Token: 
+2. Secret Token: 
+
+The API console https://data.cityofchicago.org/console.html mentioned on https://www.cityofchicago.org/city/en/narr/foia/sample_code0.html - doesn't work.
+
+What does work is:
+
+1. You open the home page: https://data.cityofchicago.org/
+
+2. Find the data set you need in the main pannel, let's say "Beach Weather Stations" - https://data.cityofchicago.org/Parks-Recreation/Beach-Weather-Stations-Automated-Sensors-2016-Humi/7edu-s3u7
+
+3. Click "Export" (light blue) in the row of the buttons, select SODA API panel (closed, opens on click);
+
+4. Copy-paste the URL from API endpoint field
+https://data.cityofchicago.org/resource/77jv-5zb8.json
+
+5. Click 'API docs' to get to the Socrata page where this particular API is described;
+https://dev.socrata.com/foundry/data.cityofchicago.org/77jv-5zb8
+
+6. Explanations of the SoQL queries is here: https://dev.socrata.com/docs/queries/
+
+7. In particular, we want to filter one station - Foster
+https://data.cityofchicago.org/resource/77jv-5zb8.json /on Socrata page;
+https://data.cityofchicago.org/resource/7edu-s3u7.json /on Chicago site page
+the parameter is: 'station_name'='Foster Weather Station'
+
+8. https://data.cityofchicago.org/resource/7edu-s3u7.json?$where=station_name = "Foster Weather Station"
+
+df <- read.socrata("https://data.cityofchicago.org/resource/7edu-s3u7.csv?where=station_name = "Foster Weather Station"", app_token = token)
+
+```{r}
+# Install RSocrata package if you still #haven't.
+install.packages("RSocrata")
+# Load the library
+library("RSocrata")
+
+token <- "QtHfmZRhGqDjOrUPZWe3NTh8s"
+df <- read.socrata("https://data.cityofchicago.org/resource/7edu-s3u7.csv", app_token = token)
+
+# all the accessible data from all the stations
+```
+
+If we need data from one station we need to use a $where row filter in SoQL request
+
+```{r}
+durl <- "https://data.cityofchicago.org/resource/7edu-s3u7.csv?$where=station_name = \"Foster Weather Station\""
+#make sure you've escaped the double quotes
+
+# token <- "QtHfmZRhGqDjOrUPZWe3NTh8s"
+#fodf <- read.socrata(durl, token)
+# it is unclear why the commented out version doesn't work
+# fodf <- read.socrata(durl, app_token = token)
+```
+
+library('plyr')
+library('rnoaa')
+options(noaakey = "NbgcGSTExtVsfjGNSVmUJxsYtRykAPLc")
+
+then the ncdc* functions start working
