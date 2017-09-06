@@ -29,13 +29,25 @@ df.head()
 #df.shape
 ```
 
-Let's remove the useless columns and leave only the 6, 7, 14, 12, 15, 16, 17.
+Let's remove the useless columns and leave only the 6, 7, 12, 14, 15, 16, 17.
 
 ```{r}
 # The list of useful columns
 useful <- c(7, 14, 15, 12, 6, 17, 16)
 
-# Useful DataFrame only has them (in a modified order)
+# The Useful DataFrame has only them (in a modified order)
 udf <-df[, useful]
+```
+
+Now we need to extract the list of categories and only leave the live sensors in the Useful DataFrame
+
+```{r}
+# Form a vector of unique elements of the "category" column
+catlist <- unique(udf[,"category"])
+
+#ludf <- udf[ which(status=='Live'),]
+ludf <- subset( udf, status=='Live', select = c(latitude:category, notes))
+
+head(ludf)
 ```
 
