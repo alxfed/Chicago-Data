@@ -5,7 +5,7 @@ date: "September 5, 2017"
 output: html_document
 ---
 
-## Sites, Pages, URLs in R Markdown
+## Sites, Pages, URLs for queries.
 
 Socrata                <https://dev.socrata.com/>;
 
@@ -20,3 +20,11 @@ Code examples          <https://dev.socrata.com/consumers/examples/>;
 R library              <https://github.com/Chicago/RSocrata>;
 
 Python library         <https://github.com/xmun0x/sodapy>.
+
+## Sites, Pages, URLs for download.
+
+Example           <https://data.cityofchicago.org/Environment-Sustainable-Development/CDPH-Environmental-Records-Lookup-Table/a9u4-3dwb/data>
+
+Other datasets through search on <https://data.cityofchicago.org/>
+
+Illinois data too here: <https://www.metrochicagodata.org/>
