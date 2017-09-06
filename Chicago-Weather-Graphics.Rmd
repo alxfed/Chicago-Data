@@ -1,0 +1,151 @@
+---
+title: "R Notebook"
+output:
+  html_document: default
+  html_notebook: default
+---
+
+This is a simple [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+
+## Chicago Weather from weather stations
+
+The  URLs for data are on the portal https://data.cityofchicago.org/ 
+
+In particular the hourly data from the three beach weather stations has a Base URL: 
+https://data.cityofchicago.org/resource/7edu-s3u7.json 
+The API documentation for this dataset is at:
+https://dev.socrata.com/foundry/data.cityofchicago.org/77jv-5zb8
+
+Let's read the dataset and display the 'head' of it:
+
+```{r}
+df <- read.csv("https://data.cityofchicago.org/resource/7edu-s3u7.csv")
+head(df)
+
+```
+
+Unfortunately the web-service only lets you download 1000 observations in this way and displays the Date/Time with AM/PM which is near impossible to deal with in R.
+
+As we can see there are three weather stations posting observations every hour as a row (a separate row for each of them). It is just logical to filter out the observations for each of the stations from the dataset with a 'where' query (but we will need to load the library for that) In particular:
+
+```{r}
+library("RSocrata", lib.loc="~/R/win-library/3.3")
+
+fdf <- read.socrata("https://data.cityofchicago.org/resource/7edu-s3u7.csv?$where=station_name=\"Foster Weather Station\"")
+```
+
+THis query read 6469 observations of 18 variables. Let's do the same with the other two stations.
+
+```{r}
+odf <- read.socrata("https://data.cityofchicago.org/resource/7edu-s3u7.csv?$where=station_name=\"Oak Street Weather Station\"")
+
+sdf <- read.socrata("https://data.cityofchicago.org/resource/7edu-s3u7.csv?$where=station_name=\"63rd Street Weather Station\"")
+```
+
+Let's backup this data as *.rda files... just in case.
+
+```{r}
+save(fdf, file = "fdf.rda")
+save(odf, file = "odf.rda")
+save(sdf, file = "sdf.rda")
+```
+
+Also, let's download everything that can be downloaded directly from the web as a *.csv and re-save it in Excel, in case some weird formatting will get in the way. We will also have a combined data frame then and will be able to assign a category to a weather station and use it later in graphics.
+It is in the directory, stored as: "Beach_Weather_Stations_-_Automated_Sensors_-_2016_-_Humidity.csv"
+Downloaded and added the same for 2015 and the "Beach_Water_and_Weather_Sensor_Locations_-_Map.csv" file with the locations of the sensors.
+
+Now we can attempt plotting a little bit
+
+```{r}
+library("ggplot2", lib.loc="~/R/win-library/3.3")
+
+qplot(Measurement.Timestamp, Air.Temperature, data = fdf, color = I("magenta"), 
+      size = I(.5), alpha = I(1/2))
+```
+
+
+As we can see ggplot2 'understands' our Date/Time format. Interestingly enough there is a gap in data in May.
+
+```{r}
+qplot(Measurement.Timestamp, Air.Temperature, data = sdf, color = I("red"), 
+      size = I(.5), alpha = I(1/2))
+```
+
+```{r}
+qplot(Measurement.Timestamp, Air.Temperature, data = odf, color = I("green"), 
+      size = I(.5), alpha = I(1/2))
+```
+
+The direct observation of data shows that indeed the gap (starting after May 9, 13:00 and until May 19 10am) exists.
+
+All together Now!
+
+```{r}
+#df will be re-used for complete data set
+df <- read.csv("Beach_Weather_Stations_-_Automated_Sensors_-_2016_-_Humidity.csv")
+qplot(Measurement.Timestamp, Air.Temperature, data = df, colour = Station.Name)
+```
+
+Not exactly OK with the Dates that were read from the *.csv file. There is no gap on the time scale which probably means that time is a factor.
+Even the number of observations doesn't match the sum of the observations obtained from the Socrata warehouse.
+
+Let's start with the dates
+
+```{r}
+# we need
+# to deal with date-time that is represented by a factor after
+# loading. Let's append four columns to the data frame, then
+# position them after the Measurement.Timestamp. 
+  
+  df$Hour <-0; df$Day <- 0; df$Month <- 0
+  df <- df[,c("Station.Name", 
+                        "Measurement.Timestamp", 
+                        "Hour", "Day", "Month", 
+                        "Air.Temperature", 
+                        "Wet.Bulb.Temperature", "Humidity", 
+                        "Rain.Intensity", "Interval.Rain", 
+                        "Total.Rain", "Precipitation.Type", 
+                        "Wind.Direction", "Wind.Speed", 
+                        "Maximum.Wind.Speed", "Barometric.Pressure", 
+                        "Solar.Radiation", "Heading", 
+                        "Battery.Life", 
+                        "Measurement.Timestamp.Label", 
+                        "Measurement.ID")]
+
+#Then we convert the Measurement.Timestamp to character
+#then - to POSIXlt
+  
+  df$Measurement.Timestamp <- as.character.POSIXt(df$Measurement.Timestamp)
+  df$Measurement.Timestamp <- as.POSIXlt(df$Measurement.Timestamp, 
+                                 format = "%m/%d/%Y %H:%M", tz="")
+
+## about dates format: http://www.stat.berkeley.edu/classes/s133/dates.html
+# fill in the columns Hour Day (day of the year mday for anthr) Month
+  
+  df$Hour <- df$Measurement.Timestamp$hour
+  df$Day <- df$Measurement.Timestamp$yday
+  df$Month <- df$Measurement.Timestamp$mon
+  
+# now let's save the result
+  
+  save(df, file = "df.rda")
+```
+
+Along the way I added the numbers of the Hour, Day and Month (starting from zero) for accumulation (later). Now let's try to re-plot the same
+
+```{r}
+qplot(Measurement.Timestamp, Air.Temperature, data = df, colour = Station.Name)
+```
+
+Now the 10-day gap is in place. Let's massage the graph a little bit
+
+```{r}
+qplot(Measurement.Timestamp, Air.Temperature, data = df, size = I(.7), alpha = I(1/2), colour = Station.Name)
+```
+
+
+From here we will go in two directions:
+
+1. Chapter "NOAA data" is devoted to getting some historical data from NOAA ASOS ground stations in order to fill the gap with missing data;
+
+2. Chapter "Weather data analysis" will be a description of simple observations based on the available data.
