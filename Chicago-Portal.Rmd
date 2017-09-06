@@ -48,14 +48,14 @@ df <- read.socrata("https://data.cityofchicago.org/resource/7edu-s3u7.csv", app_
 # all the accessible data from all the stations
 ```
 
-If we need data from one station we need to use a $where row filter in SoQL request
+If we need data from one station we need to use a $where row filter in the SoQL request
 
 ```{r}
 durl <- "https://data.cityofchicago.org/resource/7edu-s3u7.csv?$where=station_name = \"Foster Weather Station\""
 #make sure you've escaped the double quotes
 
-# token <- "QtHfmZRhGqDjOrUPZWe3NTh8s"
-#fodf <- read.socrata(durl, token)
+token <- "QtHfmZRhGqDjOrUPZWe3NTh8s"
+fodf <- read.socrata(durl, token)
 # it is unclear why the commented out version doesn't work
 # fodf <- read.socrata(durl, app_token = token)
 ```
