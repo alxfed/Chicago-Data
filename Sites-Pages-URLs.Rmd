@@ -1,0 +1,22 @@
+---
+title: "Sites-Pages-URLs"
+author: "alxfed"
+date: "September 5, 2017"
+output: html_document
+---
+
+## Sites, Pages, URLs in R Markdown
+
+Socrata                <https://dev.socrata.com/>;
+
+Socrata Query          <https://dev.socrata.com/docs/queries/>;
+
+Chicago on Socrata     <https://chicago.socrata.com/>;
+
+Access keys for it    <https://data.cityofchicago.org/profile/Alex-Fedotov/pr3p-5psv/app_tokens>;
+
+Code examples          <https://dev.socrata.com/consumers/examples/>;
+
+R library              <https://github.com/Chicago/RSocrata>;
+
+Python library         <https://github.com/xmun0x/sodapy>.
