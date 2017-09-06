@@ -3,12 +3,28 @@ title: "Array of things"
 output: html_notebook
 ---
 
-The URL of the 'Array of thing' dataset on Socrata is: https://data.cityofchicago.org/resource/dbwu-caep.<extension>
+The URL of the 'Array of things' dataset on Socrata is: https://data.cityofchicago.org/resource/dbwu-caep.<extension>
 
 Ingestion of data is done
 
 ```{r}
+
+# Load the 'Array of things' dataset on Socrata into a DataFrame
 df <- read.csv("http://data.cityofchicago.org/resource/dbwu-caep.csv", header=FALSE)
+head(df)
 ```
 
+In python (and pandas) it is:
+
+```{python}
+import pandas as pd
+
+# Load the 'Array of things' dataset on Socrata into a DataFrame
+AoT_url = "http://data.cityofchicago.org/resource/dbwu-caep.csv"
+df = pd.read_csv(AoT_url)
+
+df.head()
+df.describe()
+df.shape
+```
 
