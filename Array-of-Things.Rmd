@@ -8,7 +8,7 @@ The URL of the 'Array of thing' dataset on Socrata is: https://data.cityofchicag
 Ingestion of data is done
 
 ```{r}
-AoT <- read.csv("https://data.cityofchicago.org/resource/dbwu-caep.csv", header=FALSE)
+df <- read.csv("http://data.cityofchicago.org/resource/dbwu-caep.csv", header=FALSE)
 ```
 
 
