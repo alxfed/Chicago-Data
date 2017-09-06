@@ -1,0 +1,175 @@
+---
+title: "NOAA Data"
+output: html_notebook
+html_document: NOAA_Data.html
+---
+
+The ground based ASOS stations of airports have a historical repository here: ftp://ftp.ncdc.noaa.gov/pub/data/noaa/
+
+Some quotes from the readme.txt:
+
+"This directory contains ISH/ISD data in directories 
+! by year.  
+Please note that ISH and ISD refer to the same data--
+Integrated Surface Data, sometimes called 
+Integrated Surface Hourly."
+
+"The filenames correspond with the station numbers listed in the ftp://ftp.ncdc.noaa.gov/pub/data/noaa/isd-history.txt file (and in
+ftp://ftp.ncdc.noaa.gov/pub/data/noaa/isd-history.csv )
+or http://www1.ncdc.noaa.gov/pub/data/noaa/
+
+Downloaded the *.csv and put it into the directory.
+
+The stations of interest are:
+1. Chicago
+
+KORD
+725300 94846 CHICAGO O'HARE INTERNATIONAL  US   IL KORD  +41.995
+-087.934 +0201.8 19461001 20161022
+999999 94846 CHICAGO OHARE INTL AP         US   IL KORD  +41.995
+-087.934 +0205.4 19700101 19721231
+
+
+KMDW
+725340 14819 CHICAGO MIDWAY INTL ARPT      US   IL KMDW  +41.786
+-087.752 +0186.5 19730101 20161022
+999999 14819 CHICAGO MIDWAY AP             US   IL KMDW  +41.786
+-087.752 +0188.4 19480101 19721231
+
+KGYY
+725337 04807 GARY/CHICAGO AIRPORT          US   IN KGYY  +41.617
+-087.417 +0180.1 20060101 20161022
+725337 99999 GARY CHICAGO                  US   IN KGYY  +41.617
+-087.400 +0180.0 19810126 20051231
+
+2. St. Louis
+
+KSTL
+724340 13994 LAMBERT-ST LOUIS INTERNATIONA US   MO KSTL  +38.753
+-090.374 +0161.9 19730101 20161022
+999999 13994 ST LOUIS LAMBERT INT'L ARPT   US   MO KSTL  +38.753
+-090.374 +0216.4 19450101 19721231
+
+KSUS
+724345 03966 SPIRIT OF ST LOUIS AIRPORT    US   MO KSUS  +38.657
+-090.656 +0140.8 19730101 20161022
+
+KCPS
+725314 03960 ST LOUIS DOWNTOWN AIRPORT     US   IL KCPS  +38.571 -090.157 +0125.9 20060101 20161022
+725314 99999 CAHOKIA/ST. LOUIS             US   IL KCPS  +38.567 -090.150 +0126.0 19781219 20051231
+
+Downloaded these archived files and put them into the directory.
+It looks like the files are binaries produced with the help of
+a Fortran program.
+
+However! We now know the names and codes for the stations and their datasets, let's try retrieving the data through the web-service. The token is free (but it should be activated).
+
+NOAA cdo http://www.ncdc.noaa.gov/cdo-web/token
+ documentation http://www.ncdc.noaa.gov/cdo-web/webservices/v2
+Token:	NbgcGSTExtVsfjGNSVmUJxsYtRykAPLc
+
+There is a package 'rnoaa' too. MIRACULOUSLY (!!!) it has an "isd_read(path)" function in it that READS THE LOCAL ISD/ISH file!
+
+
+```{r}
+library("rnoaa", lib.loc="~/R/win-library/3.3")
+#fle <- system.file("E:/R/R-processing-of-public-datasets/", "725300-94846-2016.gz", package = "rnoaa")
+#ohr <- isd_read(fle)
+ohr <- isd_read("E:/R/R-processing-of-public-datasets/725300-94846-2016.gz")
+```
+
+And it worked. Let's cut all the unnecessary and save what we've got for O'Hare
+
+```{r}
+ohr$Hour <-0; ohr$Day <- 0; ohr$Month <- 0
+  ohr <- ohr[,c("usaf_station", 
+                        "date", "time",
+                        "Hour", "Day", "Month", 
+                        "temperature", 
+                        "temperature_dewpoint",
+                        "wind_direction", "wind_speed", 
+                        "air_pressure")]
+
+# save(ohr, file = "ohr.rda")
+```
+
+For some reason the observations have a 5:59 point every day with all 9-s. Need to remove it from here. Subsetting of course.
+
+```{r}
+ohr <- subset(ohr, !time=="0559")
+
+#Then we convert the Measurement.Timestamp to character
+#then - to POSIXlt
+  
+#  ohr$date <- as.character.POSIXt(ohr$date)
+  ohr$date <- as.POSIXlt(paste(ohr$date, ohr$time, sep =" "), 
+                                 format = "%Y-%m-%d %H%M", tz="")
+  
+#Now 'time' column can be removed
+  ohr$time <- NULL
+  
+#Let's unify the names a little bit
+  
+  names(ohr) <- c("Station.Name", "Measurement.Timestamp", 
+                  "Hour", "Day", "Month", "Air.Temperature",
+                  "Temperature.Dewpoint", "Wind.Direction",
+                  "Wind.Speed", "Barometric.Pressure")
+
+## about dates format: http://www.stat.berkeley.edu/classes/s133/dates.html
+# fill in the columns Hour Day (day of the year mday for anthr) Month
+  
+  ohr$Hour <- ohr$Measurement.Timestamp$hour
+  ohr$Day <- ohr$Measurement.Timestamp$yday
+  ohr$Month <- ohr$Measurement.Timestamp$mon
+
+```
+
+Let's look:
+
+```{r}
+library("ggplot2", lib.loc="~/R/win-library/3.3")
+
+qplot(Measurement.Timestamp, Air.Temperature, data = ohr, color = I("magenta"), 
+      size = I(.5), alpha = I(1/2))
+```
+
+There's are point with 999.9 temperature ( by boxplot(ohr$Air.Temperature) )in April and July, let's find and replace them with a medium between the neighbouring points or just exclude them. 
+
+```{r}
+ohr <- ohr[!(ohr$Air.Temperature==999.9),]
+
+qplot(Measurement.Timestamp, Air.Temperature, data = ohr, color = I("magenta"), size = I(.5), alpha = I(1/2))
+```
+
+There is a missing value too. Let's exclude it too.
+
+```{r}
+ohr <- ohr[!is.na(ohr$Air.Temperature),]
+ohr <- ohr[!is.na(ohr$Measurement.Timestamp),]
+qplot(Measurement.Timestamp, Air.Temperature, data = ohr, color = I("magenta"), size = I(.5))
+```
+
+Now everything is ok. The missing value was in the Measurement.Timestamp, not in the Temperature.
+
+Now let's learn to calculate Humidity from Temperature.Dewpoint and vice versa.
+
+Temperature.Dewpoint = Temperature - (100 - Humidity)/5
+
+temperatures in Celsius. Humidity in %
+
+Also, the Apparent Temperature is: 
+AT = -2.7 + 1.04*T + 2.0*e -0.65*v
+
+where AT and T (air temperature) are °C,
+e is vapor pressure in kPa,
+and v is 10m wind speed in m/sec. http://www.ncdc.noaa.gov/societal-impacts/apparent-temp/at
+
+Also, I found ISD-lite
+ftp://ftp.ncdc.noaa.gov/pub/data/noaa/isd-lite/
+725300 94846
+
+```{r}
+library(rnoaa)
+okr <- isd_read("E:/R/R-processing-of-public-datasets/725300-94846-2016L.gz")
+```
+

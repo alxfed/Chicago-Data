@@ -52,7 +52,7 @@ If we need data from one station we need to use a $where row filter in the SoQL 
 
 ```{r}
 durl <- "https://data.cityofchicago.org/resource/7edu-s3u7.csv?$where=station_name = \"Foster Weather Station\""
-#make sure you've escaped the double quotes
+#make sure you've escaped the double quotes, thank you, the unknown hero who made the name of the station this way!
 
 token <- "QtHfmZRhGqDjOrUPZWe3NTh8s"
 fodf <- read.socrata(durl, token)
