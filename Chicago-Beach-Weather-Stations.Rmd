@@ -35,7 +35,9 @@ odf <- read.socrata("https://data.cityofchicago.org/resource/77jv-5zb8.csv?$wher
 sdf <- read.socrata("https://data.cityofchicago.org/resource/77jv-5zb8.csv?$where=station_name=\"63rd Street Weather Station\"")
 ```
 
-
 and 
+
+There can be other types of queries using SODA query language, they are described here:
+https://dev.socrata.com/docs/queries/
 
 The end (as it turns out a rmd notebook will not work if it ends with a chunk).
