@@ -26,6 +26,9 @@ head(df)
 
 Unfortunately the web-service only lets you download 1000 observations in this way and displays the Date/Time with AM/PM which is near impossible to deal with in R.
 
+Barometric pressure for 2017:
+https://data.cityofchicago.org/resource/77jv-5zb8.csv
+
 As we can see there are three weather stations posting observations every hour as a row (a separate row for each of them). It is just logical to filter out the observations for each of the stations from the dataset with a 'where' query (but we will need to load the library for that) In particular:
 
 ```{r}
