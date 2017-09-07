@@ -19,18 +19,23 @@ Owner: Jonathan Levy
 Endpoint Version: 2.1
 
 ```{r}
+
 require(RSocrata)          #load the library
 
 # Read data for Foster Weather Station
 
 fdf <- read.socrata("https://data.cityofchicago.org/resource/77jv-5zb8.csv?$where=station_name=\"Foster Weather Station\"")
-```
 
-The other two stations are:
+# The other two stations are:
 
-```{r}
 odf <- read.socrata("https://data.cityofchicago.org/resource/77jv-5zb8.csv?$where=station_name=\"Oak Street Weather Station\"")
 
 #and 
 
 sdf <- read.socrata("https://data.cityofchicago.org/resource/77jv-5zb8.csv?$where=station_name=\"63rd Street Weather Station\"")
+```
+
+
+and 
+
+The end (as it turns out a rmd notebook will not work if it ends with a chunk).
