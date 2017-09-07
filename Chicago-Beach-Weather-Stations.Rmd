@@ -1,0 +1,36 @@
+---
+title: "Chicago Beach Weather Stations"
+output: html_notebook
+---
+https://dev.socrata.com/foundry/data.cityofchicago.org/77jv-5zb8
+
+The Chicago Park District maintains weather sensors at beaches along Chicago's Lake Michigan lakefront. These sensors generally capture the indicated measurements hourly while the sensors are in operation during the summer. During other seasons and at some other times, information from the sensors may not be available. See https://data.cityofchicago.org/id/qmqz-2xkufor 
+a dataset with similar measurements on the lake water, itself. The sensor locations are listed at
+https://data.cityofchicago.org/d/g3ip-u8rb.
+
+Dataset Identifier: 77jv-5zb8
+Total Rows: 55042
+Source Domain: data.cityofchicago.org
+Created: 5/19/2015, 2:17:38 PM
+Last Updated: 9/7/2017, 6:00:26 AM
+Category: Parks & Recreation
+Attribution: Chicago Park District
+Owner: Jonathan Levy
+Endpoint Version: 2.1
+
+```{r}
+require(RSocrata)          #load the library
+
+# Read data for Foster Weather Station
+
+fdf <- read.socrata("https://data.cityofchicago.org/resource/77jv-5zb8.csv?$where=station_name=\"Foster Weather Station\"")
+```
+
+The other two stations are:
+
+```{r}
+odf <- read.socrata("https://data.cityofchicago.org/resource/77jv-5zb8.csv?$where=station_name=\"Oak Street Weather Station\"")
+
+#and 
+
+sdf <- read.socrata("https://data.cityofchicago.org/resource/77jv-5zb8.csv?$where=station_name=\"63rd Street Weather Station\"")
