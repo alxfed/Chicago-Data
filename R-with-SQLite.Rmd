@@ -29,7 +29,7 @@ db <- dbConnect(RSQLite::SQLite(), dbname)
 # dbListTables(db)
 
 # query
-dbGetQuery(db, "SELECT * FROM foster;")
+# dbGetQuery(db, "SELECT * FROM foster;")
 
 # turn the light off before leaving
 #dbDisconnect(db)
@@ -38,7 +38,18 @@ dbGetQuery(db, "SELECT * FROM foster;")
 SELECT * FROM foster;
 ```
 
+Or you can build your query, then fetch the data
+
 ```{r}
+
+myQuery <- dbSendQuery(db, "SELECT Measurement.Timestamp.Label, Humidity FROM foster")
+
+my_data <- dbFetch(myQuery, n = -1) # -1 means 'all'
+
+# clean up after yourself 
+# bClearResult(myQuery)
+
+# Don't forget to turn the lights off when you are leaving!
 dbDisconnect(db)
 ```
 
