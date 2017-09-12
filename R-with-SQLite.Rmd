@@ -24,14 +24,21 @@ dbname <- "F:/sqlite_databases/nbase.sqlite"
 db <- dbConnect(RSQLite::SQLite(), dbname)
 
 # Data
-data(fdf)
-dbWriteTable(db, "foster", fdf)
-dbListTables(db)
+# data(fdf)
+# dbWriteTable(db, "foster", fdf)
+# dbListTables(db)
 
 # query
-dbGetQuery(db, "SELECT * FROM foster")
+dbGetQuery(db, "SELECT * FROM foster;")
 
 # turn the light off before leaving
+#dbDisconnect(db)
+```
+```{sql connection=db}
+SELECT * FROM foster;
+```
+
+```{r}
 dbDisconnect(db)
 ```
 
