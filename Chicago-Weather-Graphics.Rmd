@@ -19,8 +19,8 @@ https://dev.socrata.com/foundry/data.cityofchicago.org/77jv-5zb8
 Let's read the dataset and display the 'head' of it:
 
 ```{r}
-df <- read.csv("https://data.cityofchicago.org/resource/7edu-s3u7.csv")
-head(df)
+# df <- read.csv("https://data.cityofchicago.org/resource/7edu-s3u7.csv")
+# head(df)
 
 ```
 
@@ -32,7 +32,7 @@ https://data.cityofchicago.org/resource/77jv-5zb8.csv
 As we can see there are three weather stations posting observations every hour as a row (a separate row for each of them). It is just logical to filter out the observations for each of the stations from the dataset with a 'where' query (but we will need to load the library for that) In particular:
 
 ```{r}
-library("RSocrata", lib.loc="~/R/win-library/3.3")
+library("RSocrata")
 
 fdf <- read.socrata("https://data.cityofchicago.org/resource/7edu-s3u7.csv?$where=station_name=\"Foster Weather Station\"")
 ```
