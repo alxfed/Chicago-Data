@@ -53,4 +53,21 @@ my_data <- dbFetch(myQuery, n = -1) # -1 means 'all'
 dbDisconnect(db)
 ```
 
+Also, see in pandas/python
+
+```{python}
+import pandas as pd
+import sqlite3
+ 
+conn = sqlite3.connect('F:/sqlite_databases/nbase.sqlite')
+query = "SELECT * FROM foster"
+ 
+df = pd.read_sql_query(query,conn)
+ 
+print(df.head())
+```
+
+
+And 'out of memory' workflow: https://plot.ly/python/big-data-analytics-with-pandas-and-sqlite/
+
 The end.

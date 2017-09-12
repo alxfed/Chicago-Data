@@ -238,10 +238,63 @@ dbDisconnect(db)</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
+<p>Also, see in pandas/python</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgcHl0aG9uXG5pbXBvcnQgcGFuZGFzIGFzIHBkXG5pbXBvcnQgc3FsaXRlM1xuIFxuY29ubiA9IHNxbGl0ZTMuY29ubmVjdCgnRjovc3FsaXRlX2RhdGFiYXNlcy9uYmFzZS5zcWxpdGUnKVxucXVlcnkgPSBcIlNFTEVDVCAqIEZST00gZm9zdGVyXCJcbiBcbmRmID0gcGQucmVhZF9zcWxfcXVlcnkocXVlcnksY29ubilcbiBcbnByaW50KGRmLmhlYWQoKSlcbmBgYCJ9 -->
+<pre class="python"><code>import pandas as pd
+import sqlite3
+ 
+conn = sqlite3.connect('F:/sqlite_databases/nbase.sqlite')
+query = &quot;SELECT * FROM foster&quot;
+ 
+df = pd.read_sql_query(query,conn)
+ 
+print(df.head())</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiICAgICAgICAgICAgIFN0YXRpb24uTmFtZSAgTWVhc3VyZW1lbnQuVGltZXN0YW1wICBBaXIuVGVtcGVyYXR1cmUgIFxcXG4wICBGb3N0ZXIgV2VhdGhlciBTdGF0aW9uICAgICAgICAgICAxLjQ1MTcxNGUrMDkgICAgICAgICAgICAtMS41NiAgIFxuMSAgRm9zdGVyIFdlYXRoZXIgU3RhdGlvbiAgICAgICAgICAgMS40NTE3MThlKzA5ICAgICAgICAgICAgLTIuMjggICBcbjIgIEZvc3RlciBXZWF0aGVyIFN0YXRpb24gICAgICAgICAgIDEuNDUxNzIyZSswOSAgICAgICAgICAgIC0yLjg5ICAgXG4zICBGb3N0ZXIgV2VhdGhlciBTdGF0aW9uICAgICAgICAgICAxLjQ1MTcyNWUrMDkgICAgICAgICAgICAtMy4wNiAgIFxuNCAgRm9zdGVyIFdlYXRoZXIgU3RhdGlvbiAgICAgICAgICAgMS40NTE3MjllKzA5ICAgICAgICAgICAgLTMuMTcgICBcblxuICBXZXQuQnVsYi5UZW1wZXJhdHVyZSAgSHVtaWRpdHkgUmFpbi5JbnRlbnNpdHkgIEludGVydmFsLlJhaW4gVG90YWwuUmFpbiAgXFxcbjAgICAgICAgICAgICAgICAgIE5vbmUgICAgICAgIDYyICAgICAgICAgICBOb25lICAgICAgICAgICAgMC4wICAgICAgIE5vbmUgICBcbjEgICAgICAgICAgICAgICAgIE5vbmUgICAgICAgIDYzICAgICAgICAgICBOb25lICAgICAgICAgICAgMC4wICAgICAgIE5vbmUgICBcbjIgICAgICAgICAgICAgICAgIE5vbmUgICAgICAgIDY1ICAgICAgICAgICBOb25lICAgICAgICAgICAgMC4wICAgICAgIE5vbmUgICBcbjMgICAgICAgICAgICAgICAgIE5vbmUgICAgICAgIDY0ICAgICAgICAgICBOb25lICAgICAgICAgICAgMC4wICAgICAgIE5vbmUgICBcbjQgICAgICAgICAgICAgICAgIE5vbmUgICAgICAgIDY0ICAgICAgICAgICBOb25lICAgICAgICAgICAgMC4wICAgICAgIE5vbmUgICBcblxuICBQcmVjaXBpdGF0aW9uLlR5cGUgIFdpbmQuRGlyZWN0aW9uICBXaW5kLlNwZWVkICBNYXhpbXVtLldpbmQuU3BlZWQgIFxcXG4wICAgICAgICAgICAgICAgTm9uZSAgICAgICAgICAgICAyNjkgICAgICAgICAyLjEgICAgICAgICAgICAgICAgIDMuMCAgIFxuMSAgICAgICAgICAgICAgIE5vbmUgICAgICAgICAgICAgMjgyICAgICAgICAgMi40ICAgICAgICAgICAgICAgICAyLjYgICBcbjIgICAgICAgICAgICAgICBOb25lICAgICAgICAgICAgIDI2MiAgICAgICAgIDQuMCAgICAgICAgICAgICAgICAgNC43ICAgXG4zICAgICAgICAgICAgICAgTm9uZSAgICAgICAgICAgICAyNzggICAgICAgICAyLjMgICAgICAgICAgICAgICAgIDMuMiAgIFxuNCAgICAgICAgICAgICAgIE5vbmUgICAgICAgICAgICAgMzA0ICAgICAgICAgMi4yICAgICAgICAgICAgICAgICAyLjUgICBcblxuICAgQmFyb21ldHJpYy5QcmVzc3VyZSAgU29sYXIuUmFkaWF0aW9uIEhlYWRpbmcgIEJhdHRlcnkuTGlmZSAgXFxcbjAgICAgICAgICAgICAgICAgOTk1LjkgICAgICAgICAgICAgICAgMCAgICBOb25lICAgICAgICAgIDE1LjIgICBcbjEgICAgICAgICAgICAgICAgOTk1LjYgICAgICAgICAgICAgICAgMCAgICBOb25lICAgICAgICAgIDE1LjIgICBcbjIgICAgICAgICAgICAgICAgOTk2LjMgICAgICAgICAgICAgICAgMCAgICBOb25lICAgICAgICAgIDE0LjggICBcbjMgICAgICAgICAgICAgICAgOTk1LjkgICAgICAgICAgICAgICAgMCAgICBOb25lICAgICAgICAgIDE0LjggICBcbjQgICAgICAgICAgICAgICAgOTk1LjkgICAgICAgICAgICAgICAgMCAgICBOb25lICAgICAgICAgIDE1LjIgICBcblxuICBNZWFzdXJlbWVudC5UaW1lc3RhbXAuTGFiZWwgICAgICAgICAgICAgICAgICAgIE1lYXN1cmVtZW50LklEICBcbjAgICAgICAgICAwMS8wMi8yMDE2IDEyOjAwIEFNICBGb3N0ZXJXZWF0aGVyU3RhdGlvbjIwMTYwMTAyMjQwMCAgXG4xICAgICAgICAgIDAxLzAyLzIwMTYgMTowMCBBTSAgRm9zdGVyV2VhdGhlclN0YXRpb24yMDE2MDEwMjAxMDAgIFxuMiAgICAgICAgICAwMS8wMi8yMDE2IDI6MDAgQU0gIEZvc3RlcldlYXRoZXJTdGF0aW9uMjAxNjAxMDIwMjAwICBcbjMgICAgICAgICAgMDEvMDIvMjAxNiAzOjAwIEFNICBGb3N0ZXJXZWF0aGVyU3RhdGlvbjIwMTYwMTAyMDMwMCAgXG40ICAgICAgICAgIDAxLzAyLzIwMTYgNDowMCBBTSAgRm9zdGVyV2VhdGhlclN0YXRpb24yMDE2MDEwMjA0MDAgIFxuIn0= -->
+<pre><code>             Station.Name  Measurement.Timestamp  Air.Temperature  \
+0  Foster Weather Station           1.451714e+09            -1.56   
+1  Foster Weather Station           1.451718e+09            -2.28   
+2  Foster Weather Station           1.451722e+09            -2.89   
+3  Foster Weather Station           1.451725e+09            -3.06   
+4  Foster Weather Station           1.451729e+09            -3.17   
+
+  Wet.Bulb.Temperature  Humidity Rain.Intensity  Interval.Rain Total.Rain  \
+0                 None        62           None            0.0       None   
+1                 None        63           None            0.0       None   
+2                 None        65           None            0.0       None   
+3                 None        64           None            0.0       None   
+4                 None        64           None            0.0       None   
+
+  Precipitation.Type  Wind.Direction  Wind.Speed  Maximum.Wind.Speed  \
+0               None             269         2.1                 3.0   
+1               None             282         2.4                 2.6   
+2               None             262         4.0                 4.7   
+3               None             278         2.3                 3.2   
+4               None             304         2.2                 2.5   
+
+   Barometric.Pressure  Solar.Radiation Heading  Battery.Life  \
+0                995.9                0    None          15.2   
+1                995.6                0    None          15.2   
+2                996.3                0    None          14.8   
+3                995.9                0    None          14.8   
+4                995.9                0    None          15.2   
+
+  Measurement.Timestamp.Label                    Measurement.ID  
+0         01/02/2016 12:00 AM  FosterWeatherStation201601022400  
+1          01/02/2016 1:00 AM  FosterWeatherStation201601020100  
+2          01/02/2016 2:00 AM  FosterWeatherStation201601020200  
+3          01/02/2016 3:00 AM  FosterWeatherStation201601020300  
+4          01/02/2016 4:00 AM  FosterWeatherStation201601020400  </code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>And ‘out of memory’ workflow: <a href="https://plot.ly/python/big-data-analytics-with-pandas-and-sqlite/" class="uri">https://plot.ly/python/big-data-analytics-with-pandas-and-sqlite/</a></p>
 <p>The end.</p>
 <!-- rnb-text-end -->
 
-<div id="rmd-source-code">LS0tDQp0aXRsZTogIlIgd2l0aCBTUUxpdGUiDQpvdXRwdXQ6IGh0bWxfbm90ZWJvb2sNCi0tLQ0KDQpNYWludGFpbmluZyBhIGxvY2FsIFNRTGl0ZSBjYWNoZSBkYXRhYmFzZSBvZiBkYXRhIGZvciBwcm9jZXNzaW5nIGluIFIgYW5kIFB5dGhvbi4NCg0KVGhlIGxvY2FsIGRhdGFiYXNlcyBhcmUgaW4gdGhlICJGOlxzcWxpdGUtZGF0YWJhc2VzXCIgZGlyZWN0b3J5IGFzIGZpbGVzIHdpdGggZXh0ZW5zaW9uICouc3FsaXRlDQoNCkRhdGFiYXNlIGNyZWF0aW9uOiBjaGFuZ2UgZGlyZWN0b3J5IHRvICJGOlxzcWxpdGUtZGF0YWJhc2VzXCIsIA0KDQo+c3FsaXRlMyBuYmFzZS5zcWxpdGUNCg0KDQoNCmBgYHtyfQ0KbGlicmFyeShSU1FMaXRlKSAgI3doZXJlIHRoZSBTUUxpdGUgd3JhcHBlciBpcw0KbGlicmFyeShEQkkpDQoNCiMgc2V0IHVwIHRoZSBuYW1lIG9mIHRoZSBkYXRhYmFzZQ0KZGJuYW1lIDwtICJGOi9zcWxpdGVfZGF0YWJhc2VzL25iYXNlLnNxbGl0ZSINCg0KIyBOb3cgd2UgY29ubmVjdA0KZGIgPC0gZGJDb25uZWN0KFJTUUxpdGU6OlNRTGl0ZSgpLCBkYm5hbWUpDQoNCiMgRGF0YQ0KIyBkYXRhKGZkZikNCiMgZGJXcml0ZVRhYmxlKGRiLCAiZm9zdGVyIiwgZmRmKQ0KIyBkYkxpc3RUYWJsZXMoZGIpDQoNCiMgcXVlcnkNCiMgZGJHZXRRdWVyeShkYiwgIlNFTEVDVCAqIEZST00gZm9zdGVyOyIpDQoNCiMgdHVybiB0aGUgbGlnaHQgb2ZmIGJlZm9yZSBsZWF2aW5nDQojZGJEaXNjb25uZWN0KGRiKQ0KYGBgDQpgYGB7c3FsIGNvbm5lY3Rpb249ZGJ9DQpTRUxFQ1QgKiBGUk9NIGZvc3RlcjsNCmBgYA0KDQpPciB5b3UgY2FuIGJ1aWxkIHlvdXIgcXVlcnksIHRoZW4gZmV0Y2ggdGhlIGRhdGENCg0KYGBge3J9DQoNCm15UXVlcnkgPC0gZGJTZW5kUXVlcnkoZGIsICJTRUxFQ1QgTWVhc3VyZW1lbnQuVGltZXN0YW1wLkxhYmVsLCBIdW1pZGl0eSBGUk9NIGZvc3RlciIpDQoNCm15X2RhdGEgPC0gZGJGZXRjaChteVF1ZXJ5LCBuID0gLTEpICMgLTEgbWVhbnMgJ2FsbCcNCg0KIyBjbGVhbiB1cCBhZnRlciB5b3Vyc2VsZiANCiMgYkNsZWFyUmVzdWx0KG15UXVlcnkpDQoNCiMgRG9uJ3QgZm9yZ2V0IHRvIHR1cm4gdGhlIGxpZ2h0cyBvZmYgd2hlbiB5b3UgYXJlIGxlYXZpbmchDQpkYkRpc2Nvbm5lY3QoZGIpDQpgYGANCg0KVGhlIGVuZC4NCg==</div>
+<div id="rmd-source-code">LS0tDQp0aXRsZTogIlIgd2l0aCBTUUxpdGUiDQpvdXRwdXQ6IGh0bWxfbm90ZWJvb2sNCi0tLQ0KDQpNYWludGFpbmluZyBhIGxvY2FsIFNRTGl0ZSBjYWNoZSBkYXRhYmFzZSBvZiBkYXRhIGZvciBwcm9jZXNzaW5nIGluIFIgYW5kIFB5dGhvbi4NCg0KVGhlIGxvY2FsIGRhdGFiYXNlcyBhcmUgaW4gdGhlICJGOlxzcWxpdGUtZGF0YWJhc2VzXCIgZGlyZWN0b3J5IGFzIGZpbGVzIHdpdGggZXh0ZW5zaW9uICouc3FsaXRlDQoNCkRhdGFiYXNlIGNyZWF0aW9uOiBjaGFuZ2UgZGlyZWN0b3J5IHRvICJGOlxzcWxpdGUtZGF0YWJhc2VzXCIsIA0KDQo+c3FsaXRlMyBuYmFzZS5zcWxpdGUNCg0KDQoNCmBgYHtyfQ0KbGlicmFyeShSU1FMaXRlKSAgI3doZXJlIHRoZSBTUUxpdGUgd3JhcHBlciBpcw0KbGlicmFyeShEQkkpDQoNCiMgc2V0IHVwIHRoZSBuYW1lIG9mIHRoZSBkYXRhYmFzZQ0KZGJuYW1lIDwtICJGOi9zcWxpdGVfZGF0YWJhc2VzL25iYXNlLnNxbGl0ZSINCg0KIyBOb3cgd2UgY29ubmVjdA0KZGIgPC0gZGJDb25uZWN0KFJTUUxpdGU6OlNRTGl0ZSgpLCBkYm5hbWUpDQoNCiMgRGF0YQ0KIyBkYXRhKGZkZikNCiMgZGJXcml0ZVRhYmxlKGRiLCAiZm9zdGVyIiwgZmRmKQ0KIyBkYkxpc3RUYWJsZXMoZGIpDQoNCiMgcXVlcnkNCiMgZGJHZXRRdWVyeShkYiwgIlNFTEVDVCAqIEZST00gZm9zdGVyOyIpDQoNCiMgdHVybiB0aGUgbGlnaHQgb2ZmIGJlZm9yZSBsZWF2aW5nDQojZGJEaXNjb25uZWN0KGRiKQ0KYGBgDQpgYGB7c3FsIGNvbm5lY3Rpb249ZGJ9DQpTRUxFQ1QgKiBGUk9NIGZvc3RlcjsNCmBgYA0KDQpPciB5b3UgY2FuIGJ1aWxkIHlvdXIgcXVlcnksIHRoZW4gZmV0Y2ggdGhlIGRhdGENCg0KYGBge3J9DQoNCm15UXVlcnkgPC0gZGJTZW5kUXVlcnkoZGIsICJTRUxFQ1QgTWVhc3VyZW1lbnQuVGltZXN0YW1wLkxhYmVsLCBIdW1pZGl0eSBGUk9NIGZvc3RlciIpDQoNCm15X2RhdGEgPC0gZGJGZXRjaChteVF1ZXJ5LCBuID0gLTEpICMgLTEgbWVhbnMgJ2FsbCcNCg0KIyBjbGVhbiB1cCBhZnRlciB5b3Vyc2VsZiANCiMgYkNsZWFyUmVzdWx0KG15UXVlcnkpDQoNCiMgRG9uJ3QgZm9yZ2V0IHRvIHR1cm4gdGhlIGxpZ2h0cyBvZmYgd2hlbiB5b3UgYXJlIGxlYXZpbmchDQpkYkRpc2Nvbm5lY3QoZGIpDQpgYGANCg0KQWxzbywgc2VlIGluIHBhbmRhcy9weXRob24NCg0KYGBge3B5dGhvbn0NCmltcG9ydCBwYW5kYXMgYXMgcGQNCmltcG9ydCBzcWxpdGUzDQogDQpjb25uID0gc3FsaXRlMy5jb25uZWN0KCdGOi9zcWxpdGVfZGF0YWJhc2VzL25iYXNlLnNxbGl0ZScpDQpxdWVyeSA9ICJTRUxFQ1QgKiBGUk9NIGZvc3RlciINCiANCmRmID0gcGQucmVhZF9zcWxfcXVlcnkocXVlcnksY29ubikNCiANCnByaW50KGRmLmhlYWQoKSkNCmBgYA0KDQoNCkFuZCAnb3V0IG9mIG1lbW9yeScgd29ya2Zsb3c6IGh0dHBzOi8vcGxvdC5seS9weXRob24vYmlnLWRhdGEtYW5hbHl0aWNzLXdpdGgtcGFuZGFzLWFuZC1zcWxpdGUvDQoNClRoZSBlbmQuDQo=</div>
 
 
 
